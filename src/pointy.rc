@@ -1,0 +1,425 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#define APSTUDIO_HIDDEN_SYMBOLS
+#include "windows.h"
+#undef APSTUDIO_HIDDEN_SYMBOLS
+#include "genwin.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (United States) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+POINTYICON              ICON                    "../img/pointy.ico"
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+SQUAREB                 BITMAP                  "../img/square.bmp"
+
+WHITEB                  BITMAP                  "../img/white.bmp"
+
+BLACKB                  BITMAP                  "../img/black.bmp"
+
+BOARDB                  BITMAP                  "../img/board2.bmp"
+
+MSQUAREB                BITMAP                  "../img/msquare.bmp"
+
+FLIP1                   BITMAP                  "../img/flip1.bmp"
+
+FLIP2                   BITMAP                  "../img/flip2.bmp"
+
+FLIP3                   BITMAP                  "../img/flip3.bmp"
+
+FLIP4                   BITMAP                  "../img/flip4.bmp"
+
+FLIP5                   BITMAP                  "../img/flip5.bmp"
+
+FLIP6                   BITMAP                  "../img/flip6.bmp"
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Cursor
+//
+
+BCURSOR                 CURSOR                  "../img/bcursor.cur"
+
+WCURSOR                 CURSOR                  "../img/wcursor.cur"
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+POINTYMENU MENU
+BEGIN
+    POPUP "&File"
+    BEGIN
+        MENUITEM "&New...",                     21
+        MENUITEM "&Load...",                    22
+        MENUITEM "&Save as...",                 23
+        MENUITEM SEPARATOR
+        MENUITEM "&Export Transcript...",       25
+        MENUITEM "&Import Transcript...",       26
+        MENUITEM "&Clipboard Paste Transcript...", 27
+        MENUITEM "Next &Transcript",            28
+        MENUITEM SEPARATOR
+        MENUITEM "E&xit...",                    24
+    END
+    POPUP "&Game"
+    BEGIN
+        MENUITEM "&New Game",                   21
+        MENUITEM SEPARATOR
+        MENUITEM "Computer Plays &Black",       41
+        MENUITEM "Computer Plays &White",       40
+        MENUITEM SEPARATOR
+        MENUITEM "&Computer Off",               42
+        MENUITEM "&Computer Analyzes",          44
+        MENUITEM SEPARATOR
+        MENUITEM "&Self Play this game",        43
+        MENUITEM SEPARATOR
+        MENUITEM "&Suggest Move (m)",           48
+    END
+    POPUP "&Edit"
+    BEGIN
+        MENUITEM "&Copy Game State",            101
+        MENUITEM "&Paste Game State",           102
+        MENUITEM "&Undo Paste Game State",      103
+        MENUITEM SEPARATOR
+        MENUITEM "Paste from Last Changed Move (v)", 109
+        MENUITEM "Paste from &Last Game Loaded", 104
+        MENUITEM SEPARATOR
+        MENUITEM "Copy Transcript to Clipboard", 523
+        MENUITEM "&Paste Transcript from Clipboard", 927
+        MENUITEM "Next &Transcript",            928
+        MENUITEM SEPARATOR
+        MENUITEM "Set&up Board (b)",            46
+    END
+    POPUP "&Level"
+    BEGIN
+        MENUITEM "&1 ply (easiest)",            51
+        MENUITEM "&2 ply,  6 ply end",          52
+        MENUITEM "&3 ply,  8 ply end",          53
+        MENUITEM "&4 ply,  10 ply end",         54
+        MENUITEM "&6 ply,  12 ply end",         55
+        MENUITEM "&8 ply,  16 ply end",         56
+        MENUITEM "1&0 ply, 18 ply end",         57
+        MENUITEM "12 ply, 20 ply end",          58
+        MENUITEM "16 ply, 22 ply end",          59
+        MENUITEM "&Time Dependent",             60
+        MENUITEM SEPARATOR
+        MENUITEM "&Win/Loss",                   432
+        MENUITEM "&Perfect",                    431
+    END
+    POPUP "&Brain"
+    BEGIN
+        POPUP "Openings"
+        BEGIN
+            MENUITEM "by Difficulty Level (default)", 1200
+            MENUITEM "Small Randomness always",     1201
+            MENUITEM "Medium Randomness always",    1202
+            MENUITEM "Book off after 4 moves",      1203
+        END
+        POPUP "Transposition Table"
+        BEGIN
+            MENUITEM "4 MB",                        1210
+            MENUITEM "8 MB",                        1211
+            MENUITEM "16 MB",                       1212
+            MENUITEM "32 MB",                       1213
+            MENUITEM "64 MB",                       1214
+            MENUITEM "128 MB",                      1215
+            MENUITEM "256 MB",                      1216
+            MENUITEM "512 MB",                      1217
+            MENUITEM SEPARATOR
+            MENUITEM "Clear Table",                 1219
+        END
+        MENUITEM SEPARATOR
+        MENUITEM "Pointy Stone",                1220
+        MENUITEM "Greedy (middle)",             1221
+        MENUITEM "Random Max (easiest)",        1222
+    END
+    POPUP "&Time"
+    BEGIN
+        MENUITEM "1 Minute",                    61
+        MENUITEM "2 Minutes",                   62
+        MENUITEM "3 Minutes",                   67
+        MENUITEM "5 Minutes",                   63
+        MENUITEM "10 Minutes",                  68
+        MENUITEM "15 Minutes",                  64
+        MENUITEM "30 Minutes",                  65
+        MENUITEM "&Unlimited",                  66
+        MENUITEM SEPARATOR
+        MENUITEM "&Reset Clock",                69
+    END
+    POPUP "&Options"
+    BEGIN
+        MENUITEM "Replay &Last Move (r)",       77
+        MENUITEM SEPARATOR
+        MENUITEM "&Show Available Moves",       71
+        MENUITEM SEPARATOR
+        MENUITEM "No Animation",                675
+        MENUITEM "Fast Flipping",               676
+        MENUITEM "Medium Flipping",             677
+        MENUITEM SEPARATOR
+        MENUITEM "Pause Time",                  679
+        MENUITEM SEPARATOR
+        MENUITEM "&Board Orientation",          76
+        MENUITEM SEPARATOR
+        MENUITEM "Display Search &Info",        73
+    END
+    POPUP "&Names"
+    BEGIN
+        MENUITEM "Set Player Name(s) and Defaults", ID_NAMES_PLAYERINFO
+        MENUITEM SEPARATOR
+        MENUITEM "Set Player's Name to Default", 95
+        MENUITEM "&Swap Black/White Names",     94
+    END
+    POPUP "Develop"
+    BEGIN
+        MENUITEM "Read o-x position from clipboard", 2955
+        MENUITEM SEPARATOR
+        MENUITEM "&Evaluate Board (e)",         89
+        MENUITEM "&Transposition Table Info (t)", 2977
+        MENUITEM "&Perft",                      2956
+        MENUITEM SEPARATOR
+        MENUITEM "&File System Game",           2958
+    END
+END
+
+THINKING MENU
+BEGIN
+    POPUP "&File"
+    BEGIN
+        MENUITEM "Thinking...",                 ID_DEBUGTEST_THINKING, GRAYED
+        MENUITEM "Stop &Thinking (s)",          255
+        MENUITEM SEPARATOR
+        MENUITEM "E&xit...",                    24
+    END
+    POPUP "&Game"
+    BEGIN
+        MENUITEM "Stop &Thinking (s)",          255
+        MENUITEM "Stop &Playing",               256
+    END
+    POPUP "&Edit"
+    BEGIN
+        MENUITEM "&Copy Game State",            101
+        MENUITEM "Copy Transcript to Clipboard", 523
+        MENUITEM "Thinking...",                 ID_DEBUGTEST_THINKING, GRAYED
+    END
+    POPUP "Difficulty &Level"
+    BEGIN
+        MENUITEM "Thinking...",                 ID_DEBUGTEST_THINKING, GRAYED
+    END
+    POPUP "&Brain"
+    BEGIN
+        MENUITEM "Thinking...",                 ID_DEBUGTEST_THINKING, GRAYED
+    END
+    POPUP "&Time Limit"
+    BEGIN
+        MENUITEM "Thinking...",                 ID_DEBUGTEST_THINKING, GRAYED
+    END
+    POPUP "&Internet"
+    BEGIN
+        MENUITEM "Thinking...",                 ID_DEBUGTEST_THINKING, GRAYED
+    END
+    POPUP "&Options"
+    BEGIN
+        MENUITEM "&Show Available Moves",       71
+        MENUITEM "No &Flip Animation",          72
+        MENUITEM SEPARATOR
+        MENUITEM "&Board Orientation",          76
+        MENUITEM SEPARATOR
+        MENUITEM "Display Search &Info",        73
+    END
+    POPUP "&Names"
+    BEGIN
+        MENUITEM "Set Default Name from &Black", 92
+        MENUITEM "Set Default Name from &White", 93
+        MENUITEM "&Swap Black/White Names",     94
+    END
+    POPUP "&About"
+    BEGIN
+        MENUITEM "&About Pointy Stone...",      MENU_ABOUT
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+ABOUTBOX DIALOGEX 22, 17, 182, 76
+STYLE DS_SETFONT | DS_MODALFRAME | WS_CAPTION | WS_SYSMENU
+CAPTION "About Pointy Stone 3"
+FONT 8, "MS Sans Serif", 0, 0, 0x0
+BEGIN
+    CTEXT           "Pointy Stone 3 Othello for Windows",IDC_STATIC,32,5,132,8
+    CTEXT           "Version 1.50",IDC_STATIC,37,14,107,8
+    CTEXT           "By Jonathan Kreuzer",IDC_STATIC,0,31,182,8
+    DEFPUSHBUTTON   "OK",IDOK,74,60,32,14,WS_GROUP
+    ICON            "PointyIcon",IDC_STATIC,10,6,20,20
+    CTEXT           "www.3dkingdoms.com/pointy3/pointy3main.htm",IDC_STATIC,1,46,181,10,SS_CENTERIMAGE
+END
+
+CHAT DIALOG 0, 216, 269, 68
+STYLE DS_SETFONT | WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_BORDER
+FONT 8, "Helv"
+BEGIN
+    EDITTEXT        103,5,55,228,13,ES_MULTILINE | ES_AUTOVSCROLL
+    DEFPUSHBUTTON   "Send",105,236,55,28,13
+    EDITTEXT        106,6,3,262,46,ES_MULTILINE | ES_AUTOVSCROLL | ES_READONLY | WS_VSCROLL
+END
+
+PLAYER DIALOG 46, 89, 211, 94
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CAPTION | WS_SYSMENU
+CAPTION "Name Set"
+FONT 8, "Helv"
+BEGIN
+    DEFPUSHBUTTON   "OK",1,2,73,36,12
+    PUSHBUTTON      "Cancel",2,43,73,36,12
+    EDITTEXT        100,9,20,104,15
+    LTEXT           "White Name:",102,7,7,103,8,NOT WS_GROUP
+    EDITTEXT        101,8,52,104,15
+    LTEXT           "Black Name:",103,5,40,103,8,NOT WS_GROUP
+    PUSHBUTTON      "Set as Default Name",3,123,21,78,12
+    PUSHBUTTON      "Set as Default Name",4,122,53,78,12
+END
+
+CLIENT DIALOGEX 270, 0, 154, 284
+STYLE DS_SETFONT | WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_BORDER
+FONT 8, "Helv", 0, 0, 0x0
+BEGIN
+    CTEXT           "",121,24,69,93,10,SS_CENTERIMAGE | NOT WS_GROUP
+    LTEXT           "Time- 0:00",105,77,90,39,8,NOT WS_GROUP
+    LTEXT           "Discs: 2",106,26,90,37,8,NOT WS_GROUP
+    LTEXT           "Discs: 2",107,26,37,37,8,NOT WS_GROUP
+    LTEXT           "Time- 0:00",108,77,37,39,8,NOT WS_GROUP
+    LTEXT           "Move 0 of 0",120,51,212,56,10,NOT WS_GROUP
+    EDITTEXT        112,9,126,125,74,ES_MULTILINE | ES_AUTOVSCROLL | ES_WANTRETURN
+    PUSHBUTTON      "Go",ID_MOVENOW,6,231,19,14
+    CONTROL         "An",ID_ANALYZE,"Button",BS_OWNERDRAW,26,231,21,14
+    PUSHBUTTON      ">>",ID_LASTMOVE,118,231,17,14
+    PUSHBUTTON      "<-",ID_PREVMOVE,71,231,22,14
+    PUSHBUTTON      "->",ID_NEXTMOVE,94,231,22,14
+    PUSHBUTTON      "<<",ID_FIRSTMOVE,51,231,18,14
+    CTEXT           "",122,24,16,93,10,SS_CENTERIMAGE | NOT WS_GROUP
+END
+
+TIMEBOX DIALOG 30, 30, 180, 89
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CAPTION | WS_SYSMENU
+CAPTION "Pause before moving"
+FONT 8, "Helv"
+BEGIN
+    DEFPUSHBUTTON   "Ok",IDOK,49,70,36,12
+    EDITTEXT        100,19,27,47,12
+    LTEXT           "Computer won't move sooner than this:",101,19,10,138,8,NOT WS_GROUP
+    LTEXT           "(in 10ths of a second)",IDC_STATIC,77,28,78,8
+    DEFPUSHBUTTON   "Cancel",ID_CANCEL,91,70,36,12
+    CONTROL         "Only pause when the player must pass",102,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,19,49,137,10
+END
+
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#define APSTUDIO_HIDDEN_SYMBOLS\r\n"
+    "#include ""windows.h""\r\n"
+    "#undef APSTUDIO_HIDDEN_SYMBOLS\r\n"
+    "#include ""genwin.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO
+BEGIN
+    "ABOUTBOX", DIALOG
+    BEGIN
+        RIGHTMARGIN, 144
+    END
+
+    "CHAT", DIALOG
+    BEGIN
+        RIGHTMARGIN, 268
+    END
+
+    "PLAYER", DIALOG
+    BEGIN
+        LEFTMARGIN, 2
+        BOTTOMMARGIN, 85
+    END
+
+    "CLIENT", DIALOG
+    BEGIN
+    END
+
+    "TIMEBOX", DIALOG
+    BEGIN
+        BOTTOMMARGIN, 86
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+#endif    // English (United States) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

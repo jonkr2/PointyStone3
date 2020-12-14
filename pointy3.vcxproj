@@ -313,7 +313,6 @@
   <ItemGroup>
     <Image Include="img\black.bmp" />
     <Image Include="img\board2.bmp" />
-    <Image Include="img\demo3.BMP" />
     <Image Include="img\flip1.bmp" />
     <Image Include="img\flip2.bmp" />
     <Image Include="img\flip3.bmp" />

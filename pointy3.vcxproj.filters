@@ -75,9 +75,6 @@
     <Image Include="img\board2.bmp">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="img\demo3.BMP">
-      <Filter>Resource Files</Filter>
-    </Image>
     <Image Include="img\flip1.bmp">
       <Filter>Resource Files</Filter>
     </Image>
