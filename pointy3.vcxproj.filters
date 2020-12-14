@@ -1,0 +1,117 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{02c7a280-be9a-45ce-bd4f-5045474b5f0c}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;rc;def;r;odl;idl;hpj;bat</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{92a2e426-fe76-4f20-af0b-5262b7231a8f}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{c97116dc-7b7a-4bb6-a58d-54dced43437a}</UniqueIdentifier>
+      <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
+    </Filter>
+    <Filter Include="Extra Source">
+      <UniqueIdentifier>{5f0be6e2-920f-4c39-a863-8d15c0724b92}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Libs">
+      <UniqueIdentifier>{952c94ab-2f38-4873-a25d-326a5b3f3a24}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\gui.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\uncompress.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ai.cpp">
+      <Filter>Extra Source</Filter>
+    </ClCompile>
+    <ClCompile Include="src\book.cpp">
+      <Filter>Extra Source</Filter>
+    </ClCompile>
+    <ClCompile Include="src\eval.cpp">
+      <Filter>Extra Source</Filter>
+    </ClCompile>
+    <ClCompile Include="src\learn.cpp">
+      <Filter>Extra Source</Filter>
+    </ClCompile>
+    <ClCompile Include="src\movegen.cpp">
+      <Filter>Extra Source</Filter>
+    </ClCompile>
+    <ClCompile Include="src\transcript.cpp">
+      <Filter>Extra Source</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ttable.cpp">
+      <Filter>Extra Source</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\gui.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ai.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\resource.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="img\bcursor.cur">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="img\wcursor.cur">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="img\black.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="img\board2.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="img\demo3.BMP">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="img\flip1.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="img\flip2.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="img\flip3.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="img\flip4.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="img\flip5.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="img\flip6.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="img\msquare.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="img\pointy.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="img\square.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="img\white.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="src\pointy.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>
