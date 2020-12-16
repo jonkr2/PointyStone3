@@ -24,7 +24,7 @@ int PlayBook( char color, short &x, short &y, int &total, int random)
 	total = 0;
 	        
 	if (OpeningsType == 1) random = 0;
-	if (OpeningsType == 2 || OpeningsType == 3 || (OpeningsType = 0 && brainType == 1) ) random = 1;
+	if (OpeningsType == 2 || OpeningsType == 3 || (OpeningsType = 0 && brainType == BT_GREEDY) ) random = 1;
 
 	clock_t randtime;
 	randtime = clock();
@@ -154,47 +154,49 @@ int PlayBook( char color, short &x, short &y, int &total, int random)
 // ------------------------------------------
 void CompressSaveOBook()
 {
-	FILE *OpenBook;
-	unsigned char line[80], len, lastvalue = 0;
-	int size, same, i;
-	int x, t;
-
 	// insertion sort (store sorted indices in SortBook)
-	for (i = 0; i < BookLen; i++)
+	for (int i = 0; i < BookLen; i++)
 	{
-		x = i;
-		while (x > 0 && strcmp(&OBook[ i * 48 + 3],  &OBook[SortBook[x-1] * 48 + 3]) < 0) x--;
+		int x = i;
+		while (x > 0 && strcmp(&OBook[ i * 48 + 3], &OBook[SortBook[x-1] * 48 + 3]) < 0) x--;
 
-		for (t = i; t > x; t--) SortBook[t] = SortBook[t-1];
+		for (int t = i; t > x; t--) SortBook[t] = SortBook[t-1];
 		SortBook[x] = i;
 	}
 
 	// save it
-	OpenBook = fopen ("bookn3.pnt", "wb");
-	for (x = 0; x < BookLen; x++)
+	FILE* fp = fopen ("bookn3.pnt", "wb");
+	if (fp)
 	{
-		i = SortBook[x] * 48;
-		same = 0;
-		len = (OBook[ i + 2] -'f');
-		if (x > 0)
+		int lastvalue = 0;
+		unsigned char line[80];
+
+		for (int x = 0; x < BookLen; x++)
 		{
-			while (OBook[ i + 3 + same] == OBook[ SortBook[x-1] * 48 + 3 + same] && same < len) same++;
+			int i = SortBook[x] * 48;
+			int same = 0;
+			int len = (OBook[i + 2] - 'f');
+			if (x > 0)
+			{
+				while (OBook[i + 3 + same] == OBook[SortBook[x - 1] * 48 + 3 + same] && same < len) same++;
+			}
+
+			line[0] = OBook[i + 2] - 'f' + 132;
+			line[1] = OBook[i];
+			int size = 2 + line[0] - 132 - same;
+			if (lastvalue == line[1]) {
+				memcpy(&line[1], &OBook[i + 3 + same], size); size--;
+			}
+			else {
+				memcpy(&line[2], &OBook[i + 3 + same], size);
+			}
+
+			fwrite(line, 1, size, fp);
+			lastvalue = OBook[i];
 		}
 
-		 line[0] = OBook[ i + 2] - 'f' + 132;
-		 line[1] = OBook[ i ];
-		 size = 2 + line[0] - 132 - same;
-		 if (lastvalue == line[1]) {
-			 memcpy (&line[1], &OBook [ i + 3 + same ], size); size--;
-		 } else {
-			 memcpy (&line[2], &OBook [ i + 3 + same ], size);
-		 }
-
-		 fwrite( line, 1, size, OpenBook);
-		 lastvalue = OBook[ i ];
+		fclose(fp);
 	}
-
-	fclose (OpenBook);
 }
 
 // -------------------------------

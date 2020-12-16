@@ -43,10 +43,10 @@ int EvaluateBoard( Board &board )
     if (board.numblack == 0) return 400;
     if (board.numblack == board.nummarkers) return -400;
 
-	if (brainType != 0 && final == 0) 
+	if (brainType != BT_POINTY && final == 0) 
 	{
-		if (brainType == 1) return GreedyEvaluateBoard(board);
-		if (brainType == 2) return RandomEvaluateBoard(board);
+		if (brainType == BT_GREEDY) return GreedyEvaluateBoard(board);
+		if (brainType == BT_RANDOMMAX) return RandomEvaluateBoard(board);
 	}
 
 	// Set the coeffs to the gamestage

@@ -8,6 +8,7 @@ constexpr int EMPTYEND = 7;
 constexpr int INVALID_SQ = 66;
 constexpr int INVALID_MOVE = 127;
 constexpr int INVALID_VALUE = -9999;
+constexpr int UNKNOWN_VALUE = -1001;
 
 const int Location[16] = { 0, 0, 9801, 9720, 9477, 8748, 6561, 0, 6561, 8748, 9477, 9720, 9801, 0, 0 };
 const int Power3[19] = { 0, 1, 3, 9, 27, 81, 81*3, 81*9, 81*27, 81*81, 81*81*3, 81*81*9 };

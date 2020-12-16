@@ -63,7 +63,10 @@ int HistoryWhite[66];
 int HistoryBlack[66];
 int Killer[66];
 
-int startMarkers, brainType = 0, checkMove = 0, checkNum = 0, EndPruneRange = 70;
+enum eBrainType { BT_POINTY, BT_GREEDY, BT_RANDOMMAX };
+eBrainType brainType = BT_POINTY;
+
+int startMarkers, checkMove = 0, checkNum = 0, EndPruneRange = 70;
 int refuteMove[66];
 // ----------------
 // AI files
@@ -581,7 +584,7 @@ int inline SortMoves( SingleMove *Moves, char color, int total, int ahead, int b
 // -------------------------------
 void inline SortMovesHistory( SingleMove *Moves, char color, int bestmove, int total )
 {
-	const int start = (bestmove == 127) ? 1 : 2;
+	const int start = (bestmove == INVALID_MOVE) ? 1 : 2;
 	const int* History = (color == BLACK) ? HistoryBlack : HistoryWhite;
 
 	for (int i = start; i <= total; i++)
@@ -722,47 +725,45 @@ int inline CheckTimeAndDisplayInfo( float ExtraSecs )
 // Is this useful? Somewhat.
 int Diagonals( Board &board, int color, int nChange)
 {
-	int q1, q2, change, x1, x2, x3, x4;
-
 	if (board.nummarkers < 35 ) return 0;
 
-	q1 = quiesce [board.southeast[7] ];
-	q2 = quiesce [board.southwest[7] ];
+	int q1 = quiesce [board.southeast[7] ];
+	int q2 = quiesce [board.southwest[7] ];
 
 	if (q1 == 0 && q2 == 0) return 0;
 
-	x1 = DiagI[ board.southeast[7] ].XSquare1;
-	x3 = DiagI[ board.southeast[7] ].XSquare2;
-	x2 = DiagI[ board.southwest[7] ].XSquare1;
-	x4 = DiagI[ board.southwest[7] ].XSquare2;
+	int x1 = DiagI[ board.southeast[7] ].XSquare1;
+	int x3 = DiagI[ board.southeast[7] ].XSquare2;
+	int x2 = DiagI[ board.southwest[7] ].XSquare1;
+	int x4 = DiagI[ board.southwest[7] ].XSquare2;
 	CCoeffs = &Coeffs[ gameStage[board.nummarkers] ];
 
 	if ((q1&1) == 1 && x1 != color * 6561) 
 	{
-		 change = Coeffs->EdgeX2[board.east[1] + x1 ] - Coeffs->EdgeX2[board.east[1] ]
-			    + Coeffs->EdgeX2[board.south[1] + x1 ] - Coeffs->EdgeX2[board.south[1] ];
-		 if (abs (change) > nChange) return 1;
+		int change = Coeffs->EdgeX2[ board.east[1] + x1 ] - Coeffs->EdgeX2[ board.east[1] ]
+			    + Coeffs->EdgeX2[ board.south[1] + x1 ] - Coeffs->EdgeX2[ board.south[1] ];
+		if (abs(change) > nChange) return 1;
 	}
 
 	if ((q2&1) == 1 && x2 != color * 6561) 
 	{
-		change = Coeffs->EdgeX2[ board.east[8] + x2  ] - Coeffs->EdgeX2[ board.east[8] ]
+		int change = Coeffs->EdgeX2[ board.east[8] + x2 ] - Coeffs->EdgeX2[ board.east[8] ]
 			    + Coeffs->EdgeX2[ board.south[1] + x2 * 3 ] - Coeffs->EdgeX2[ board.south[1] ];
 		 if (abs (change) > nChange) return 1;
 	}
 
 	if ( q1 >= 2 && x3 != color * 6561)
 	{
-		change = Coeffs->EdgeX2[board.east[8] + x3 * 3] - Coeffs->EdgeX2[ board.east[8] ]
+		int change = Coeffs->EdgeX2[board.east[8] + x3 * 3] - Coeffs->EdgeX2[ board.east[8] ]
 			    + Coeffs->EdgeX2[board.south[8] + x3 * 3] - Coeffs->EdgeX2[ board.south[8] ];
-		 if (abs (change) > nChange) return 1;
+		 if (abs(change) > nChange) return 1;
 	}
 
 	if ( q2 >= 2 && x4 != color * 6561)
 	{
-		change = Coeffs->EdgeX2[board.east[1] + x4 * 3] - Coeffs->EdgeX2[board.east[1] ]
+		int change = Coeffs->EdgeX2[board.east[1] + x4 * 3] - Coeffs->EdgeX2[board.east[1] ]
 			    + Coeffs->EdgeX2[board.south[8] + x4 ] - Coeffs->EdgeX2[board.south[8] ];
-		 if (abs (change) > nChange) return 1;
+		 if (abs(change) > nChange) return 1;
 	}	
 
 	return 0;
@@ -822,7 +823,7 @@ void inline DoPruning( int &eval, const int &alpha, const int &beta, const unsig
 
 			if ((eval - temp) >= beta && (eval2 - temp + 3) >= beta && VerifyValue (BoardStack[ahead], 1, 42) == 1) eval = beta; 
 			else if ((eval + temp)  <= alpha && (eval2 + temp - 3) <= alpha && VerifyValue (BoardStack[ahead], -1, 42) == 1) eval = alpha;
-			else eval = -9999;
+			else eval = INVALID_VALUE;
 		}
 	}
 }
@@ -969,19 +970,22 @@ int AlphaBetaSearch(int color, unsigned int ahead, int alpha, int beta, int &bes
             else  
 			{
 				refuteMove[ahead] = move.sq;
-				int nextbest = 127;
+				int nextbest = INVALID_MOVE;
 				eval = INVALID_VALUE;
 
 				TT_Lookup( eval, nextbest, alpha, beta, ahead, color, hi, hashvalue );
 
-				if (eval == -9999) DoPruning( eval, alpha, beta, ahead );
+				if (eval == INVALID_VALUE) {
+					DoPruning(eval, alpha, beta, ahead);
+				}
 
-                if (eval == -9999)
+                if (eval == INVALID_VALUE)
 				{
+					// Set best move (not played on this ply) as killed for next ply
 					 if (i == 1) 
-						 Killer[ ahead + 2] = MoveStack[2 + (ahead<<5)].sq;
+						 Killer[ahead + 2] = MoveStack[2 + (ahead<<5)].sq;
 					 else  
-						 Killer[ ahead + 2] = MoveStack[1 + (ahead<<5)].sq;
+						 Killer[ahead + 2] = MoveStack[1 + (ahead<<5)].sq;
 
 					// Quicker endgame for 7 empty
 					if (final == 1 && BoardStack[ahead].nummarkers >= (64 - EMPTYEND) ) 
@@ -1135,7 +1139,7 @@ void DisplayNodes( int move, int Eval, int inbook, int ticks, int question )
 	else 
 		depth = CurrentAhead;
 
-	if ( move != 127 )
+	if ( move != INVALID_MOVE)
 	{
 		// Best move found so far
 		j = sprintf (buffer, "Move: %c%c", (move & 7 ) + 'a', (move >> 3) + '1' );
@@ -1152,7 +1156,7 @@ void DisplayNodes( int move, int Eval, int inbook, int ticks, int question )
 		if (checkMove != INVALID_SQ) {
 			j += sprintf(buffer + j, " (%c%c", (checkMove & 7) + 'a', (checkMove >> 3) + '1');
 		}
-		if (refuteMove[2] != 66 && refuteMove[2] != 127) {
+		if (refuteMove[2] != 66 && refuteMove[2] != INVALID_MOVE) {
 			if (depth >= 23 || (final == 0 && depth >= 12))
 			{
 				if (depth > 24)
@@ -1167,7 +1171,7 @@ void DisplayNodes( int move, int Eval, int inbook, int ticks, int question )
 
 	if (winloss && abs (Eval) < 10000 && (final == 1 || final == 3))
 	{
-		if (Eval != -1001)
+		if (Eval != UNKNOWN_VALUE)
 		{
 			if (Eval == 0) 
 				Eval = 500; 
@@ -1185,7 +1189,7 @@ void DisplayNodes( int move, int Eval, int inbook, int ticks, int question )
     else 
 		strcat (buffer, "Eval: " );
         
-	if (abs(Eval) > 10000 || abs(Eval) == 1001) strcat (buffer, "?? " );
+	if (abs(Eval) > 10000 || abs(Eval) == UNKNOWN_VALUE) strcat (buffer, "?? " );
     else if (Eval == 1000) strcat (buffer, "WIN " );
     else if (Eval == -1000) strcat (buffer, "LOSS " );
     else if (Eval == 500) strcat (buffer, "DRAW " ); 
@@ -1221,7 +1225,7 @@ void DisplayNodes( int move, int Eval, int inbook, int ticks, int question )
 		}
 		if ((final == 1 || final==3 ) && (Eval == 1000 || Eval == -1000 || Eval == 500)) 
 		{
-			if ( EndGamePrune == 0 && (checkNum > 1 || move == 127 ) ) {
+			if ( EndGamePrune == 0 && (checkNum > 1 || move == INVALID_MOVE) ) {
 
 			} else if ( EndGamePrune == 0 || (EndPruneRange >= 40 && (checkNum > 1 || move == 127))  )
 				strcat( buffer, "?" ); // light win/loss pruning
@@ -1338,7 +1342,7 @@ void SetThinkTime( char CompColor, float &MaxThinkSec, float &ExtraSecs, int bFi
 int ComputerThink( char CompColor, char board[64], bool analyzeMode = false )
 {
 	int inBook;
-	int LastEval = 0, Scope = 1440, oldEval = -1001;
+	int LastEval = 0, Scope = 1440, oldEval = UNKNOWN_VALUE;
 	int bestmove, mid, question = 0;
 	unsigned int MaxAhead;
 	short MoveX, MoveY;
@@ -1346,7 +1350,7 @@ int ComputerThink( char CompColor, char board[64], bool analyzeMode = false )
 	static int LastWinLoss = 0;
 	const int incPly = 2;
 	 
-	bestmove = 127;
+	bestmove = INVALID_MOVE;
 	MaxAhead = SearchDepth;                    
 	nodes = 0; nodesDisplay = nodes + 100000;
 	final = 0; winloss = 0; checkMove = 66; mid = -99;
@@ -1364,9 +1368,9 @@ int ComputerThink( char CompColor, char board[64], bool analyzeMode = false )
 	// Set Lookahead Based on Difficulty Level
 	CurrentAhead = MaxAhead;
 
-	if (brainType !=2)	
+	if (brainType != BT_RANDOMMAX)	
 	{
-		if ((brainType == 0 && EndgameDepth+2 >= (64-startMarkers)) || thinkingType == WINLOSS) {
+		if ((brainType == BT_POINTY && EndgameDepth+2 >= (64-startMarkers)) || thinkingType == WINLOSS) {
 			CurrentAhead = MaxAhead; final = 1; winloss = 1;
 		}
 		if (EndgameDepth >= (64-startMarkers) || thinkingType == PERFECT ) {
@@ -1397,7 +1401,7 @@ int ComputerThink( char CompColor, char board[64], bool analyzeMode = false )
 			{
 				// Don't use book much for 1 or 2 ply
 				if ( OpeningsType >= 3 && BoardStack[0].nummarkers > 12) inBook = 0;
-				else if ( OpeningsType == 0 && (BoardStack[0].nummarkers > 12 || brainType == 2) && brainType != 0) inBook = 0;
+				else if ( OpeningsType == 0 && (BoardStack[0].nummarkers > 12 || brainType == BT_RANDOMMAX) && brainType != BT_POINTY) inBook = 0;
 				else if  (MaxAhead > 2 || BoardStack[0].nummarkers <= 8 || OpeningsType!=0) {bestmove = MoveX + 8*MoveY;}
 				else inBook = 0;
 			}
@@ -1422,7 +1426,7 @@ int ComputerThink( char CompColor, char board[64], bool analyzeMode = false )
 			else 
 				CurrentAhead = MaxAhead - 2;
 
-			bestmove = 127;
+			bestmove = INVALID_MOVE;
 			TempBoard = BoardStack[0];
 
 			if ( (TimeDependent == 1 || analyzeMode ) && !g_bSaveTraining) 
@@ -1449,7 +1453,7 @@ int ComputerThink( char CompColor, char board[64], bool analyzeMode = false )
 			if (LastEval == TIMEOUT)
 			{
 				LastEval = oldEval;
-				if (abs (SearchEval) < 10000) LastEval = SearchEval;
+				if (abs(SearchEval) < 10000) LastEval = SearchEval;
 				if (checkNum == 1) CurrentAhead -=incPly;
 			}
 		}
@@ -1467,7 +1471,7 @@ int ComputerThink( char CompColor, char board[64], bool analyzeMode = false )
 				final = 1;
 				TT_AgeInc();
 
-				oldEval = -1001;
+				oldEval = UNKNOWN_VALUE;
 
 				// selective win/loss search
 				SearchEval = -999999;
@@ -1509,7 +1513,7 @@ int ComputerThink( char CompColor, char board[64], bool analyzeMode = false )
 				{
 					EndGamePrune = 0;
 					CurrentAhead = 66 - BoardStack[0].nummarkers;
-					LastEval = AlphaBetaSearch (CompColor, 0, -6, 6,  bestmove);
+					LastEval = AlphaBetaSearch(CompColor, 0, -6, 6,  bestmove);
 				}
 
 				if ( analyzeMode )
@@ -1526,8 +1530,9 @@ int ComputerThink( char CompColor, char board[64], bool analyzeMode = false )
 					LastEval = oldEval; 
 				}
 							
-				if (LastEval != -1001)
-				if (TimeDependent == 1 || analyzeMode) oldEval = LastEval;
+				if (LastEval != UNKNOWN_VALUE) {
+					if (TimeDependent == 1 || analyzeMode) oldEval = LastEval;
+				}
 			}// end winloss
 
 			// Perfect Endgame, using small search windows
@@ -1541,17 +1546,18 @@ int ComputerThink( char CompColor, char board[64], bool analyzeMode = false )
 				
 				// Get a best move to start with from a midgame search
 				final = 2;
-				if (bestmove == 127) 
-					LastEval = AlphaBetaSearch (CompColor, 0, -1000, 1000,  bestmove);
+				if (bestmove == INVALID_MOVE) {
+					LastEval = AlphaBetaSearch(CompColor, 0, -1000, 1000, bestmove);
+				}
 
 				final = 1;
 
 				SearchEval = -999999;
 
 				mid = 0;
-				if ( (oldEval == -1000 && CompColor == WHITE) ||  (oldEval == 1000 && CompColor == BLACK) ) 
+				if ( (oldEval == -1000 && CompColor == WHITE) || (oldEval == 1000 && CompColor == BLACK) ) 
 					{mid -=12; SearchEval = -6;}
-				if ( (oldEval == 1000 && CompColor == WHITE) ||  (oldEval == -1000 && CompColor == BLACK) ) 
+				if ( (oldEval == 1000 && CompColor == WHITE) || (oldEval == -1000 && CompColor == BLACK) ) 
 					{mid = 6; SearchEval = 6;}
 						 					 
  			 	CurrentAhead = 66 - BoardStack[0].nummarkers;
@@ -1566,7 +1572,7 @@ int ComputerThink( char CompColor, char board[64], bool analyzeMode = false )
 						{
 							oldEval = LastEval; 
 							SearchEval = oldEval;
-							LastEval = AlphaBetaSearch (CompColor, 0, LastEval, LastEval + Scope,  bestmove);
+							LastEval = AlphaBetaSearch( CompColor, 0, LastEval, LastEval + Scope, bestmove);
 						}
 					}
 					else if (LastEval <= mid) // Black Wins, find out by how much
@@ -1576,22 +1582,24 @@ int ComputerThink( char CompColor, char board[64], bool analyzeMode = false )
 						{
 							oldEval = LastEval;
 							SearchEval = oldEval;
-							LastEval = AlphaBetaSearch (CompColor, 0, LastEval - Scope, LastEval,  bestmove);
+							LastEval = AlphaBetaSearch( CompColor, 0, LastEval - Scope, LastEval, bestmove);
 						}
 					}
 				}
 
-				if (LastEval == TIMEOUT) {LastEval = oldEval; question = 1;}
+				if (LastEval == TIMEOUT) {
+					LastEval = oldEval;
+					question = 1;
+				}
 			}
 			else if (winloss == 0) // Perfect Endgame
 			{ 
-				LastEval = AlphaBetaSearch (CompColor, 0, -200, 200,  bestmove);
+				LastEval = AlphaBetaSearch(CompColor, 0, -200, 200,  bestmove);
 			}
 		}// end final
 	} // end inbook
 
-	end = clock();	
-	DisplayNodes( 127, LastEval, inBook, end-g_start, question );
+	DisplayNodes(INVALID_MOVE, LastEval, inBook, clock() - g_start, question );
 
 	return bestmove;
 }
