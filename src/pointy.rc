@@ -113,8 +113,8 @@ BEGIN
         MENUITEM "Paste from Last Changed Move (v)", 109
         MENUITEM "Paste from &Last Game Loaded", 104
         MENUITEM SEPARATOR
-        MENUITEM "Copy Transcript to Clipboard", 523
-        MENUITEM "&Paste Transcript from Clipboard", 927
+        MENUITEM "Copy Transcript to Clipboard (ctrl + c)  ", 523
+        MENUITEM "&Paste Transcript from Clipboard (ctrl + v)", 927
         MENUITEM "Next &Transcript",            928
         MENUITEM SEPARATOR
         MENUITEM "Set&up Board (b)",            46
@@ -185,18 +185,18 @@ BEGIN
         MENUITEM "Fast Flipping",               676
         MENUITEM "Medium Flipping",             677
         MENUITEM SEPARATOR
-        MENUITEM "Pause Time",                  679
-        MENUITEM SEPARATOR
         MENUITEM "&Board Orientation",          76
         MENUITEM SEPARATOR
         MENUITEM "Display Search &Info",        73
-    END
-    POPUP "&Names"
-    BEGIN
-        MENUITEM "Set Player Name(s) and Defaults", ID_NAMES_PLAYERINFO
+        MENUITEM "Pause Time",                  679
         MENUITEM SEPARATOR
-        MENUITEM "Set Player's Name to Default", 95
-        MENUITEM "&Swap Black/White Names",     94
+        POPUP "&Names"
+        BEGIN
+            MENUITEM "Set Player Name(s)",          ID_NAMES_PLAYERINFO
+            MENUITEM SEPARATOR
+            MENUITEM "Set Player's Name to Default", 95
+            MENUITEM "&Swap Black/White Names",     94
+        END
     END
     POPUP "Develop"
     BEGIN
